@@ -10,11 +10,16 @@ The external layer connects the enterprise network to two redundant ISPs for con
 
 Internet and ISP configuration:
 
+<img width="669" height="153" alt="image" src="https://github.com/user-attachments/assets/4fa72b21-4004-4afa-a12a-c994b2d57385" />
+
+
 - SEACOM ISP (Primary): 20.20.20.0/30 → 105.100.50.0/30 → ASA OUTSIDE1
 
 - SAFARICOM ISP (Secondary): 30.30.30.0/30 → 197.200.100.0/30 → ASA OUTSIDE2
 
 Internet test PCs:
+
+<img width="664" height="142" alt="image" src="https://github.com/user-attachments/assets/6c8990b6-ad39-43aa-ad82-b8a8065fbf43" />
 
 - USA-INTERNET-USER: 8.0.0.10/8
 
@@ -82,6 +87,9 @@ Subnets and purpose:
 
 DMZ services include:
 
+<img width="398" height="426" alt="image" src="https://github.com/user-attachments/assets/91eebfc3-295e-475c-aa5f-3c28ef39f1a1" />
+
+
 - Web, FTP, Email, DNS, and NAS servers
 
 - Active Directory, DHCP, and RADIUS
@@ -95,6 +103,9 @@ DMZ services include:
 Each floor has a Catalyst 2960 access switch that connects wired and wireless devices. All clients receive IP addresses via DHCP.
 
 **First Floor – Sales and Marketing**
+
+<img width="735" height="615" alt="image" src="https://github.com/user-attachments/assets/1bfb4774-78cb-498b-bbb7-cc3efe5348da" />
+
 
 Switch Model: Catalyst 2960
 Gateway: 172.16.0.1
@@ -134,6 +145,9 @@ Configuration highlights:
 
 **Second Floor – Finance and Administration**
 
+<img width="547" height="619" alt="image" src="https://github.com/user-attachments/assets/5a4aa95f-b1ef-4801-a252-aba6378c3625" />
+
+
 Switch Model: Catalyst 2960
 Gateway: 172.16.2.1
 IP Assignment: DHCP
@@ -169,6 +183,8 @@ Additional configuration:
 - STP protection enabled for access ports
 
 **Third Floor – ICT and Server Operations**
+
+<img width="622" height="623" alt="image" src="https://github.com/user-attachments/assets/858286a4-93ab-4980-9a9d-391977eddee3" />
 
 Switch Model: Catalyst 2960
 Gateway: 172.16.6.1
@@ -207,6 +223,15 @@ Configuration details:
 - VLAN 10 for SSH, SNMP, and management access
 
 - Trunk uplink to core switch for all VLANs
+
+**Third Floor - Voice Gateway & LAN Controller**
+
+WLAN Model: Cisco Wireless LAN Controller
+Router Model: 2811 Voice Gateway
+Gateway: 10.20.0.10
+
+<img width="337" height="231" alt="image" src="https://github.com/user-attachments/assets/49b829c1-74f1-445a-9ddb-cff26c674f58" />
+
 
 # **Network Protocols Implemented**
 
@@ -266,6 +291,8 @@ Network 30.30.30.0 0.0.0.3 area 0
 
 
 - HSRP – Default gateway redundancy between core switches
+
+<img width="934" height="169" alt="image" src="https://github.com/user-attachments/assets/15f4c8ed-facd-4405-aec0-ece83e4af578" />
 
 - LACP – EtherChannel bundling for bandwidth and fault tolerance
 ```

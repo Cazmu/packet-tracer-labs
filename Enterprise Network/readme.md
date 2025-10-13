@@ -211,20 +211,155 @@ Configuration details:
 # **Network Protocols Implemented**
 
 - OSPF – Dynamic routing between ASA and core switches
+```
+OSPF on firewall, routers, and switches
+CORE-SW1
+Router ospf 35
+Router-id 1.1.1.1
+Network 10.2.2.0 0.0.0.3 area 0
+Network 10.2.2.4 0.0.0.3 area 0
+Network 192.168.10.0 0.0.0.255 area 0
+Network 172.16.0.0 0.0.255.255 area 0
+Network 10.20.0.0 0.0.255.255 area 0
+Network 10.11.11.32 0.0.0.31 area 0
+Ex
+Do wr
+Do sh start
+
+CORE-SW2
+Router ospf 35
+Router-id 1.1.2.2
+Network 10.2.2.8 0.0.0.3 area 0
+Network 10.2.2.12 0.0.0.3 area 0
+Network 192.168.10.0 0.0.0.255 area 0
+Network 172.16.0.0 0.0.255.255 area 0
+Network 10.20.0.0 0.0.255.255 area 0
+Network 10.11.11.32 0.0.0.31 area 0
+Ex
+Do wr
+
+SEACOM-ISP
+Router ospf 35
+Router-id 1.1.3.3
+Network 105.100.50.0 0.0.0.3 area 0
+Network  105.100.50.4 0.0.0.3 area 0
+Network 20.20.20.0 0.0.0.3 area 0
+Ex
+Do wr
+
+SAFARICOM-ISP
+Router ospf 35
+Router-id 1.1.4.4
+Network 30.30.30.0 0.0.0.3 area 0
+Network 197.200.100.0 0.0.0.3 area 0
+Network 197.200.100.4 0.0.0.3 area 0
+Ex
+Do wr
+
+Router Cloud/Internet
+Router ospf 35
+Router-id 1.1.5.5
+Network 8.0.0.0 0.255.255.255 area 0
+Network 20.20.20.0 0.0.0.3 area 0
+Network 30.30.30.0 0.0.0.3 area 0
+```
+
 
 - HSRP – Default gateway redundancy between core switches
 
 - LACP – EtherChannel bundling for bandwidth and fault tolerance
+```
+Implement LACP for EtherChannel
+CORE-SW1:
+Int range gi1/0/9-11
+Channel-group 1 mode active 
+Int port-channel 1
+Switchport mode trunk
+Ex
+Do wr
+CORE-SW2:
+Int range gi1/0/9-11
+Channel-group 1 mode passive
+Int port-channel 1
+Switchport mode trunk
+```
 
 - VLANs and Inter-VLAN Routing – Logical segmentation for departments
 
 - STP PortFast and BPDU Guard – Loop prevention and faster convergence
+```
+Int range fa0/3-6, fa0/8-24
+Spanning-tree portfast
+Spanning-tree bpduguard enable
+ex
+Do wr
+Floor Switches:
+Int range fa0/3-24
+Spanning-tree portfast
+Spanning-tree bpduguard enable
+Ex
+Do wr
+```
 
 - DHCP and DHCP Relay – Centralized address management
 
 - NAT (Dynamic and Identity) – Address translation for Internet and DMZ access
+  
+  - Do it for both Firewall
+ 
+```
+Object network  INSIDE1-OUTSIDE1
+Subnet 172.16.0.0 255.255.0.0
+Nat (INSIDE1, OUTSIDE1) dynamic interface
+Ex
+Conf t
+Object network INSIDE2-OUTSIDE1
+Subnet 172.16.0.0 255.255.0.0
+Nat (INSIDE2, OUTSIDE1) dynamic interface
+Ex
+Conf t
+Object network  INSIDEw1-OUTSIDEw1
+Subnet 10.20.0.0 255.255.0.0
+Nat (INSIDE1, OUTSIDE1) dynamic interface
+Object network  INSIDEw2-OUTSIDEw1
+Subnet 10.20.0.0 255.255.0.0
+Nat (INSIDE2, OUTSIDE1) dynamic interface
+Ex
+Conf t
+Object network  INSIDE1-OUTSIDE2
+Subnet 172.16.0.0 255.255.0.0
+Nat (INSIDE1, OUTSIDE2) dynamic interface
+Object network  INSIDE2-OUTSIDE2
+Subnet 172.16.0.0 255.255.0.0
+Nat (INSIDE2, OUTSIDE2) dynamic interface
+Object network  INSIDEw1-OUTSIDEw2
+Subnet 10.20.0.0 255.255.0.0
+Nat (INSIDE1, OUTSIDE2) dynamic interface
+Object network  INSIDEw2-OUTSIDEw2
+Subnet 10.20.0.0 255.255.0.0
+Nat (INSIDE2, OUTSIDE2) dynamic interface
+Object network DMZ-OUTSIDE1
+Subnet 10.11.11.0 255.255.255.224
+Nat (DMZ, OUTSIDE1) dynamic interface
+Object network DMZ-OUTSIDE2
+Subnet 10.11.11.0 255.255.255.224
+Nat (DMZ, OUTSIDE2) dynamic interface
+Wr mem
+```
 
 - ACLs – Access control between zones
+  - Do it for both Firewalls
+```
+Access-list res extended permit icmp any any
+Access-list res extended permit tcp any any eq 80
+Access-list res extended permit tcp any any eq 53
+Access-list res extended permit udp any any eq 53
+Access-group res in interface DMZ
+Access-group res in interface OUTSIDE1
+Access-group res in interface OUTSIDE2
+Wr mem
+```
+
 
 - AAA (RADIUS) – Centralized authentication for administrators
 

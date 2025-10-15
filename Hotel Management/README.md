@@ -1,4 +1,4 @@
-# **Sumamry**
+# **Summary**
 
 <img width="1665" height="1053" alt="image" src="https://github.com/user-attachments/assets/6e1de996-7273-46a5-95be-cb6b79605c1e" />
 
